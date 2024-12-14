@@ -65,7 +65,7 @@ type Snake struct {
 }
 
 func NewSnake(length int) *Snake {
-	newSnake := Snake{Length: length}
+	newSnake := Snake{Length: 1}
 	head := &SnakeNode{
 		Direction: DirectionRight,
 		Position: Vector2{
@@ -113,10 +113,10 @@ func (s *Snake) Update(direction int) {
 func main() {
 	rand.Seed(time.Now().UnixMilli())
 
-	mapSize := Vector2{30, 10}
+	mapSize := Vector2{100, 20}
 	mapDisplayBuffer := make([]byte, (mapSize.X+3)*(mapSize.Y+2))
 
-	snake := NewSnake(9)
+	snake := NewSnake(3)
 
 	food := GenerateNewFood(mapSize, 1)
 
