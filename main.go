@@ -9,8 +9,8 @@ import (
 const (
 	MapBoundChar  = '#'
 	MapFillChar   = ' '
-	SnakeBodyChar = 'O'
-	FoodChar      = '@'
+	SnakeBodyChar = '@'
+	FoodChar      = '*'
 )
 
 type Vector2 struct {
@@ -94,7 +94,7 @@ func (s *Snake) AddNodes(length int) {
 	}
 }
 
-func (s *Snake) Update(direction int) {
+func (s *Snake) Update() {
 	prevNodePosition := s.Head.Position
 	prevNodeDirection := s.Head.Direction
 	s.Head.Position.Move(s.Head.Direction)
@@ -120,8 +120,7 @@ func main() {
 
 	food := GenerateNewFood(mapSize, 1)
 
-	t := time.NewTicker(time.Second / 2)
-	direction := DirectionRight
+	t := time.NewTicker(time.Second / 5)
 	for cycles := 0; ; cycles++ {
 		<-t.C
 		for line := 0; line < mapSize.Y+2; line++ {
@@ -159,8 +158,6 @@ func main() {
 		fmt.Printf("Score: %d\n", snake.Length)
 		fmt.Printf("X: %d; Y: %d\n", snake.Head.Position.X, snake.Head.Position.Y)
 		fmt.Println(string(mapDisplayBuffer))
-		snake.Update(direction)
-
 		if food.Position.X > snake.Head.Position.X {
 			snake.Head.Direction = DirectionRight
 		} else if food.Position.X < snake.Head.Position.X {
@@ -170,6 +167,7 @@ func main() {
 		} else if food.Position.Y < snake.Head.Position.Y {
 			snake.Head.Direction = DirectionUp
 		}
+		snake.Update()
 	}
 }
 
